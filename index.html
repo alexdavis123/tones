@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Tones Sorting Task</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Link to the Responsive Columns CSS -->
+  <link rel="stylesheet" type="text/css" href="css/r-c-min.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <!-- Alpine Plugins -->
+  <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Alpine Core -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Link to your general styles -->
+  <link rel="stylesheet" type="text/css" href="css/column-styles.css" />
+
+  <!--
+  See this article for more details on linking to CSS:
+  https://matthewjamestaylor.com/add-css-to-html
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.43/Tone.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<!-- <script src="/music.js"></script> -->
+<meta charset="utf-8">
+<title>Tones</title>
+<script>
+
+
+const fmSynth = new Tone.FMSynth().toDestination();
+const amSynth = new Tone.AMSynth().toDestination();
+const monoSynth = new Tone.MonoSynth({
+  oscillator: {
+    type: "square"
+  },
+  envelope: {
+    attack: 0.1
+  }
+}).toDestination();
+function play(note) {
+  console.log("test"+note);
+  alert("test");
+  //amSynth.triggerAttackRelease(note, "8n");
+}
+
+var oldval = 0;
+
+function tryAnswer(answer) {
+
+  if (answer=='Right') {
+    $("#displayright").show().delay(1000).fadeOut();
+    //  fmSynth.triggerAttackRelease("C6", "4n");
+    $('#counter1').val( function(i, oldval) {
+      return parseInt( oldval, 10) + 1;
+    });
+    $('#total').val( function(i, oldval) {
+      return parseInt( oldval, 10) + 1;
+    });
+  }else {
+    $("#displaywrong").show().delay(1000).fadeOut();
+    //  fmSynth.triggerAttackRelease("C2", "4n");
+  }
+}
+function playTone(note) {
+  var sep = note.split(",");
+  let notename = sep[0];
+  let length = sep[1];
+  let synth=sep[2];
+  console.log(sep[2]);
+
+
+  if (synth=='am') {
+    amSynth.triggerAttackRelease(notename, length);
+  } else if (synth=='fm') {
+    fmSynth.triggerAttackRelease(notename, length);
+  }else{
+    monoSynth.triggerAttackRelease(notename, length);
+  }
+}
+
+
+$(document).ready(function(){
+  $('.ans').click(function(){
+    $(this).addClass('grey');
+    $(this).closest( ".answer" ).addClass('disabled');
+    $(".disabled").html("<span class='answered'>Answered</span>");
+  });
+
+  $("#target1").click(function(){
+    fmSynth.triggerAttackRelease("C4", "4n",0);
+    amSynth.triggerAttackRelease("E4", "4n",2);
+    monoSynth.triggerAttackRelease("G4", "8n",4);
+  });
+})
+</script>
+</head>
+<body>
+  <div id="displayright" class="hide">RIGHT</div>
+  <div id="displaywrong" class="hide">WRONG</div>
+  <r-c>
+    <c1-1>
+      <h2>Tones Sorting Task</h2>
+    </c1-1>
+  </r-c>
+
+  <!-- Start layout -->
+  <r-c join>
+    <c1-1 sm1-3 class="orange">
+      <button type="button" name="button"  id="target1"  >Play Group 1 Tones</button>
+
+      <br>
+      <div x-data="{ colors: [
+        { id: 1, label: 'C4 8n', note: 'C4,8n,am', answer1:'Wrong',answer2:'Right',answer3:'Wrong' },
+        { id: 2, label: 'D3,2n,fm', note: 'E4,2n,fm', answer1:'Wrong',answer2:'Right',answer3:'Wrong'},
+        { id: 3, label: 'G3,8n,fm', note: 'G4,4n,mono', answer1:'Wrong',answer2:'Right',answer3:'Wrong'},
+        ]}">
+        <template x-for="color in colors" :key="color.id">
+          <div class="note" >
+            <span x-text="color.id+'.'"></span>
+            <div class="answer"  >
+              <span class="ans" @click.once="tryAnswer(color.answer1)">1 </span>
+              <span class="ans" @click.once="tryAnswer(color.answer2)">2 </span>
+              <span class="ans" @click.once="tryAnswer(color.answer3)">3 </span>
+              <span class="play" @click="playTone(color.note)" >play</span>
+              <br>
+            </div>
+
+          </template>
+        </div>
+
+        <br>
+      </c1-1>
+      <c1-1 sm1-3 class="blue">
+        <p>2</p>
+      </c1-1>
+      <c1-1 sm1-3 class="yellow">
+        <p>3</p>
+      </c1-1>
+    </r-c>
+    <!-- End layout -->
+    <!-- Start layout -->
+    <form action="/add" method="post">
+      <r-c join>
+        <c1-1 sm1-3 class="orange">
+          <input type="text"  value="0" name="counter1" class="center" id="counter1">
+        </c1-1>
+        <c1-1 sm1-3 class="blue">
+          <input type="text"  name="counter2" value="0" class="center" id="counter2">
+        </c1-1>
+        <c1-1 sm1-3 class="yellow">
+          <input type="text"  name="counter3" value="0" class="center" id="counter3">
+
+        </c1-1>
+      </r-c>
+      <input type="text"  name="age" value="age" onfocus="this.value=''" class="" id="age">
+      <input type="text"  name="name" value="client id or name" onfocus="this.value=''" class="" id="name">
+      <input type="text"  name="total" class="hide" id="total" value="0">
+      <input type="submit" value="Submit" id="submit">
+    </form>
+    <!-- End layout -->
+
+
+  </body>
+  </html>

@@ -1,0 +1,84 @@
+
+#target1,#target2,#targe3,#submit{
+  margin:10px auto;
+   width: 100%;
+   font-size: 28px;
+   cursor: pointer;
+}
+#age,#name{
+  float:right;
+  margin: 10px;
+}
+h2{
+  margin: 0;
+}
+.center{
+  width: 10%;
+  float: right;
+  display: block;
+}
+.tone{
+  float:right;
+
+  display: block;
+  width: 150px;
+}
+.item-lable{
+  display: block;
+  width: 50px;
+  float: left;
+}
+.note span{
+  display: block;
+  float: left;
+  padding:5px 0;
+  margin:5px;
+  font-size: 28px;
+  width:30px;
+}
+.note .answer .play{
+width:auto;
+  background: #b1b1b1;
+  display: block;
+  float: left;
+  padding: 5px 10px;
+  margin:5px;
+  cursor: pointer;
+}
+.note .answer .ans{
+width:auto;
+  background: #ccc;
+  display: block;
+  float: left;
+  padding: 5px 10px;
+  margin:5px;
+  cursor: pointer;
+}
+.note .answer .ans:hover{
+background: grey;
+}
+.note .answer .grey{
+    background:grey;
+}
+.note .answer .green{
+    background:green;
+}
+.note{
+  display: block;
+  clear: left;
+}
+.hide{
+  display: none;
+}
+#displayright,#displaywrong{
+  position: absolute;
+  width:100%;
+  height:100%;
+  line-height: 500px;
+  font-size: 150px;
+  font-weight: bold;
+  display: none;
+  padding:20px;
+  background: white;
+  text-align: center;
+}
